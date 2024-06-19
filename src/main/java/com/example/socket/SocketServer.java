@@ -42,8 +42,11 @@ public class SocketServer {
                         if (length > 0) {
                             byte[] data = new byte[length];
                             in.readFully(data, 0, length);
+                            String requestData = new String(data);
+                            logger.debug("Datos recibidos: {}", requestData);
 
-                            serviceRequest.onRequestReceived(data, serviceResponse);
+                            String responseData = "[{\n    \"printerName\":\"IBM1\",\n    \"printerId\":\"123\",\n    \"printerStatus\": \"online\",\n    \"printerLineCapacity\": 40\n}]";
+                            serviceRequest.onRequestReceived(responseData, serviceResponse);
                         }
                     }
                 } catch (EOFException e) {

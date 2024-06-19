@@ -14,7 +14,7 @@ public class ClientServerApp {
 
     public static void main(String[] args) {
         startServer();
-        startClient();
+        //startClient();
     }
 
     private static void startServer() {

@@ -8,11 +8,8 @@ public class ServiceRequest implements RequestHandler {
     private static final Logger logger = LogManager.getLogger(ServiceRequest.class);
 
     @Override
-    public void onRequestReceived(byte[] request, ResponseCallback callback) {
-        String requestData = new String(request);
-        logger.debug("Datos recibidos: {}", requestData);
+    public void onRequestReceived(String responseData, ResponseCallback callback) {
 
-        String responseData = "Respuesta del servicio a: " + requestData;
         callback.sendResponse(responseData.getBytes());
     }
 }
