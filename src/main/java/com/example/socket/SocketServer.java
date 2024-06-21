@@ -43,9 +43,19 @@ public class SocketServer {
                             byte[] data = new byte[length];
                             in.readFully(data, 0, length);
                             String requestData = new String(data);
+                            String responseData = "";
+
                             logger.debug("Datos recibidos: {}", requestData);
 
-                            String responseData = "[{\n    \"printerName\":\"IBM1\",\n    \"printerId\":\"123\",\n    \"printerStatus\": \"online\",\n    \"printerLineCapacity\": 40\n}]";
+                            if (requestData.contains("DISCOVERY")){
+                                responseData = "{\"event\":\"DISCOVERY\",\n    \"data\": [{\n    \"printerName\":\"IBM1\",\n    \"printerId\":\"123\",\n    \"printerStatus\": \"ONLINE\",\n    \"printerLineCapacity\": 40\n}]}";
+
+                            } else if (requestData.contains("STATUS")){
+                                responseData = "{\n\"event\":\"STATUS\",\n\"data\": {\n\t\"printerId\": \"123\",\n\t\"result\": \"ONLINE\"\n}\n}";
+                            } else if (requestData.contains("PRINT")){
+                                responseData = "{\n\"event\":\"PRINT\",\n\"data\": {\n\t\"printerId\": \"123\",\n\t\"result\":\"MALFORMED\",\n\t\"referenceNumber\": \"123\",\n\t\"receipt\": [\n        {\n            \"type\": \"text\",\n            \"value\": \"prueba\"\n        },\n        {\n            \"type\": \"command\",\n            \"value\": \"cut_paper\"\n        }\n    ]\n}\n}";
+                            }
+
                             serviceRequest.onRequestReceived(responseData, serviceResponse);
                         }
                     }
